@@ -37,12 +37,12 @@ def find_optimal_k_elbow(k_values, wcss_list):
     k_norm = (k_arr - k_arr.min()) / (k_arr.max() - k_arr.min())
     wcss_norm = (wcss_arr - wcss_arr.min()) / (wcss_arr.max() - wcss_arr.min())
 
-    p1 = np.array([k_norm[0], wcss_norm[0]])
-    p2 = np.array([k_norm[-1], wcss_norm[-1]])
+    p1 = np.array([k_norm[0], wcss_norm[0], 0])
+    p2 = np.array([k_norm[-1], wcss_norm[-1], 0])
 
     distances = []
     for kn, wn in zip(k_norm, wcss_norm):
-        p0 = np.array([kn, wn])
+        p0 = np.array([kn, wn, 0])
         # Perpendicular distance formula
         dist = np.abs(np.cross(p2 - p1, p1 - p0)) / np.linalg.norm(p2 - p1)
         distances.append(dist)
