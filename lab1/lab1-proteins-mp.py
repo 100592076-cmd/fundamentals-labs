@@ -6,19 +6,27 @@ import seaborn as sns
 from kmeans_scratch import KMeansCustom  # Import custom K-Means class
 import multiprocessing as mp
 
+# IMPLEMENTATION USING MULTIPROCESSING
+# The multiprocessing affects the only compute_wcss function.
 
+# This function transforms the feature "sequence" into "sequence length".
 def preprocess_dataset(df):
     # In order to work with the feature sequence, we work with length sequence.
     df["seq_length"] = df["sequence"].str.len()
     X = df[["enzyme", "hydrofob"]].to_numpy()
     return df, X
 
+# This function parallelizes the work of the function compute_wcss.
 def compute_wcss_for_k(X, k, seed=123):
     # Computes inertia for a specific k using the custom KMeans implementation.
     km = KMeansCustom(k=k, seed=seed)
     km.fit(X)
     return km.inertia_
 
+# This function computes the Inertia or Within-Cluster Sum of Squares (wcss)
+# for the dataset X and for each k (number of clusters) in k_range. 
+# The seed is for the random selection of the initial clusters,
+# it has nothing to do with the seed for the data set generation.
 def compute_wcss(X, k_range, seed=123):
     # Function that computes inertia for a range of k values using the custom KMeans implementation.
     wcss_list = []
@@ -27,11 +35,13 @@ def compute_wcss(X, k_range, seed=123):
     wcss_list.extend(results)
     return wcss_list
 
-
 # In order to find the optimal number of clusters (k), we are going to use elbow method, which consists of obtaining
 # the value of k where inertia convexity changes. For doing that, we are going to find the maximum distance from the line that
 # connects the first and last points of the inertia curve. This point is the optimal k. 
 
+# This function finds the optimal k based on the elbow graph.
+# Reminder: The optimal k is the one which lies furthest away 
+# from the line joining the first and the last ks.
 def find_optimal_k_elbow(k_values, wcss_list):
     # Finds optimal k using normalized perpendicular distance to the secant line
     k_arr = np.array(k_values, dtype=float)
@@ -54,7 +64,8 @@ def find_optimal_k_elbow(k_values, wcss_list):
     optimal_idx = np.argmax(distances)
     return k_values[optimal_idx], distances
 
-
+# This function finds the cluster with the highest sequence length 
+# and returns its id, max sequence length, and average sequence length.
 def get_cluster_highest_seq_length(df):
     # Sequence analysis: Finds cluster with the longest sequence.
     # Tie-breaker rule: if several have maximum length, pick the one with maximum Hydrofob.
@@ -67,9 +78,8 @@ def get_cluster_highest_seq_length(df):
     avg_seq_length = target_cluster_df["seq_length"].mean()
 
     return target_cluster_id, max_seq_row["protid"], max_seq_row["seq_length"], avg_seq_length
-    
-    
 
+# This function is used to plot the green line in the elbow plot
 def project_point_to_segment(x1, y1, x2, y2, x0, y0):
     # Project (x0, y0) on the line defined by [(x1, y1), (x2, y2)]
 
@@ -84,7 +94,7 @@ def project_point_to_segment(x1, y1, x2, y2, x0, y0):
     y_proj = y1 + t * (y2 - y1)
     return x_proj, y_proj
 
-
+# This funtion draws the elbow plot (the first plot)
 def plot_elbow(ax, k_range, wcss_list, optimal_k):
     k_arr = np.array(k_range, dtype=float)
     wcss_arr = np.array(wcss_list, dtype=float)
@@ -111,10 +121,10 @@ def plot_elbow(ax, k_range, wcss_list, optimal_k):
     ax.set_title("Elbow Graph")
     ax.set_xlabel("Number of Clusters (k)")
     ax.set_ylabel("Inertia")
-    ax.legend()
+    ax.legend(loc="upper right")
     ax.grid(True)
 
-
+# This function draws the cluster plot (the second plot)
 def plot_clusters(ax, df, final_km, optimal_k):
     # Generates cluster scatter plot with centroids marked.
     sns.scatterplot(data=df, x="enzyme", y="hydrofob", hue="cluster", palette="viridis", alpha=0.6, ax=ax, s=20)
@@ -122,9 +132,9 @@ def plot_clusters(ax, df, final_km, optimal_k):
     ax.set_title(f"Clustering K-Means (k={optimal_k})")
     ax.set_xlabel("Enzyme")
     ax.set_ylabel("Hydrofob")
-    ax.legend()
+    ax.legend(loc="upper right")
 
-
+# This function draws the heatmap plot (the third plot)
 def plot_centroids_heatmap(ax, final_km, optimal_k):
     # Plots a heatmap of the centroids for each cluster.
     centroid_df = pd.DataFrame(final_km.centroids_, columns=["Enzyme", "Hydrofob"], index=[f"Cluster {i}" for i in range(optimal_k)])
@@ -132,12 +142,12 @@ def plot_centroids_heatmap(ax, final_km, optimal_k):
     ax.set_title("Heatmap of Centroids")
 
 
-# Serial execution
+# Multiprocessing execution
 
 if __name__ == "__main__":
     # Start global timer
     start = time.time()
-    print("Multiprocessing execution started...")
+    print("Parallel (multiprocessing) execution started...")
 
     # Load and preprocess dataset
     df = pd.read_csv("proteins.csv")
@@ -153,12 +163,23 @@ if __name__ == "__main__":
     t_elbow_total = time.time() - t_start_elbow
     print(f"Optimal number of clusters (k) found: {optimal_k}")
 
-    # Run K-Means with optimal k
+    # # Run K-Means with optimal k (using multiprocessing)
+    # print(f"\nClustering data into {optimal_k} clusters (manual K-Means)...")
+    # t_start_final_fit = time.time()
+    # final_km = KMeansCustom(k=optimal_k, seed=123)
+    # with mp.Pool(mp.cpu_count()) as pool:
+    #     final_fit = pool.apply(final_km.fit, (X,))
+    # df["cluster"] = final_fit.labels_
+    # t_final_fit = time.time() - t_start_final_fit
+    # print("Clustering complete.")
+    ### THIS INCREASES RUNTIME
+    ### Either the code is wrong or it is not worth it to parallelize
+
+    # Run K-Means with optimal k (serial)
     print(f"\nClustering data into {optimal_k} clusters (manual K-Means)...")
     t_start_final_fit = time.time()
     final_km = KMeansCustom(k=optimal_k, seed=123)
-    with mp.Pool(mp.cpu_count()) as pool:
-        final_fit = pool.apply(final_km.fit, (X,))
+    final_fit = final_km.fit(X)
     df["cluster"] = final_fit.labels_
     t_final_fit = time.time() - t_start_final_fit
     print("Clustering complete.")
@@ -184,6 +205,9 @@ if __name__ == "__main__":
     plot_centroids_heatmap(axes[2], final_fit, optimal_k)
     plt.tight_layout()
 
+    # Time statistics
+    print(f"\n Time spent finding the optimal k: {t_elbow_total:.4f}s")
+    print(f"\n Time spent calculating the final fit: {t_final_fit:.4f}s")
     # # Amdahl's Law parallelizable calculations
     # parallelizable_time = t_elbow_total + t_final_fit
     # p_factor = (parallelizable_time / total_execution_time) * 100
