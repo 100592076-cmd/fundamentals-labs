@@ -11,4 +11,4 @@ python lab1-proteins-mp.py
 python lab1-Proteins-th.py
 ```
 
-Run from the folder containing `proteins.csv`. Datasets are not committed.
+Choose a seed and run from the folder containing `proteins.csv`. Datasets are not committed.
