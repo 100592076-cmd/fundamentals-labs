@@ -34,17 +34,17 @@ def find_optimal_k_elbow(k_values, wcss_list):
     wcss_arr = np.array(wcss_list, dtype=float)
 
     # Min-Max normalization to standard scale [0, 1]
-    k_norm = (k_arr - k_arr.min()) / (k_arr.max() - k_arr.min())
-    wcss_norm = (wcss_arr - wcss_arr.min()) / (wcss_arr.max() - wcss_arr.min())
+    x = (k_arr - k_arr.min()) / (k_arr.max() - k_arr.min())
+    y = (wcss_arr - wcss_arr.min()) / (wcss_arr.max() - wcss_arr.min())
 
-    p1 = np.array([k_norm[0], wcss_norm[0], 0])
-    p2 = np.array([k_norm[-1], wcss_norm[-1], 0])
+    p1 = np.array([x[0], y[0]])
+    p2 = np.array([x[-1], y[-1]])
 
     distances = []
-    for kn, wn in zip(k_norm, wcss_norm):
-        p0 = np.array([kn, wn, 0])
+    for i, j in zip(x, y):
+        p = np.array([i, j])
         # Perpendicular distance formula
-        dist = np.abs(np.cross(p2 - p1, p1 - p0)) / np.linalg.norm(p2 - p1)
+        dist = np.abs((p2[0]-p1[0])*(p1[1]-p[1])-(p1[0]-p[0])*(p2[1]-p1[1])) / np.linalg.norm(p2 - p1)
         distances.append(dist)
 
     optimal_idx = np.argmax(distances)
