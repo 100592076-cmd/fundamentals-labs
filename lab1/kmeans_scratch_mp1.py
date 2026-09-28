@@ -73,13 +73,14 @@ class KMeansCustom:
                     update_centroid,
                     [(X[labels == c_id], self.centroids_[c_id]) for c_id in range(self.k)],
                 ))
-
+                
+            self.centroids_ = new_centroids
             # Convergence Check
             if abs(prev_inertia - inertia) <= self.tol:
                 break
 
             prev_inertia = inertia
-            self.centroids_ = new_centroids
+            
 
         self.labels_ = labels
         self.inertia_ = inertia

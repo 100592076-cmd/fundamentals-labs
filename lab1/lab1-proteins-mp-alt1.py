@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from kmeans_scratch_mp import KMeansCustom  # Import custom K-Means class
+from kmeans_scratch_mp1 import KMeansCustom  # Import custom K-Means class
 import multiprocessing as mp
 
 # IMPLEMENTATION USING MULTIPROCESSING
-# The multiprocessing affects only the kmeans_scratch_mp function.
+# The multiprocessing affects only the kmeans_scratch_mp1 class.
 
 # This function transforms the feature "sequence" into "sequence length".
 def preprocess_dataset(df):
