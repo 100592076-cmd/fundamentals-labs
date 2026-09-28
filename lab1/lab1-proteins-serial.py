@@ -142,17 +142,21 @@ if __name__ == "__main__":
     print("Sequential execution started...")
 
     # Load and preprocess dataset
+    t_start_preprocess = time.time()
     df = pd.read_csv("proteins.csv")
-    print("Successfully loaded 'proteins.csv'.")
     df, X = preprocess_dataset(df)
+    t_preprocess = time.time() - t_start_preprocess
+    print("Successfully loaded 'proteins.csv'.")
 
     # Calculate optimal k using Elbow Method
     print("\nCalculating optimal k using the Elbow Method (sequential)...")
-    t_start_elbow = time.time()
+    t_start_inertia = time.time()
     k_range = list(range(1, 16))
     wcss_list = compute_wcss(X, k_range, seed=123)
+    t_inertia = time.time() - t_start_inertia
+    t_start_optimal = time.time()
     optimal_k, _ = find_optimal_k_elbow(k_range, wcss_list)
-    t_elbow_total = time.time() - t_start_elbow
+    t_optimal = time.time() - t_start_optimal
     print(f"Optimal number of clusters (k) found: {optimal_k}")
 
     # Run K-Means with optimal k
@@ -173,8 +177,7 @@ if __name__ == "__main__":
     print(f"  - Maximum sequence length     : {max_seq_len}")
     print(f"  - Average sequence length     : {avg_seq_len:.2f}")
 
-    end = time.time()
-    total_execution_time = end - start
+    total_execution_time = time.time() - start
 
     print(f"\nTotal program runtime: {total_execution_time:.4f} seconds.")
     print("Generating plots...")
@@ -186,13 +189,11 @@ if __name__ == "__main__":
     plot_centroids_heatmap(axes[2], final_km, optimal_k)
     plt.tight_layout()
 
-    # Amdahl's Law parallelizable calculations
-    parallelizable_time = t_elbow_total + t_final_fit
-    p_factor = (parallelizable_time / total_execution_time) * 100
-
-    print("\n--- Amdahl's Law Metrics ---")
-    print(f"Parallelizable code computing Elbow Method : {t_elbow_total:.4f} s ({(t_elbow_total / total_execution_time) * 100:.2f}%)")
-    print(f"Parallelizable code computing Final Fit    : {t_final_fit:.4f} s ({(t_final_fit / total_execution_time) * 100:.2f}%)")
-    print(f"Total parallelizable percentage (p)        : {p_factor:.2f}% (for Amdahl's Law)")
+    print("\n--- Time statistics ---")
+    print(f"\n Time spent in preprocessing: {t_preprocess:.4f}  ({(t_preprocess / total_execution_time) * 100:.2f}%)")
+    print(f"\n Time spent calculating the inertia for every k: {t_inertia:.4f} s ({(t_inertia / total_execution_time) * 100:.2f}%)")
+    print(f"\n Time spent finding the optimal k: {t_optimal:.4f} s ({(t_optimal / total_execution_time) * 100:.2f}%)")
+    print(f"\n Time spent calculating the final fit: {t_final_fit:.4f} s ({(t_final_fit / total_execution_time) * 100:.2f}%)")
+    print(f"\n Total program runtime (excluding ploting): {total_execution_time:.4f} seconds.")
     print("\nDisplaying plots. Close plot windows to exit.")
     plt.show()
