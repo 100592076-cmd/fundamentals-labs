@@ -30,7 +30,7 @@ def compute_wcss_for_k(X, k, seed=123):
 def compute_wcss(X, k_range, seed=123):
     # Function that computes inertia for a range of k values using the custom KMeans implementation.
     wcss_list = []
-    with mp.Pool(mp.cpu_count()) as pool:
+    with mp.Pool(min(mp.cpu_count(),len(k_range))) as pool:
         results = pool.starmap(compute_wcss_for_k, [(X, k, seed) for k in k_range])
     wcss_list.extend(results)
     return wcss_list
