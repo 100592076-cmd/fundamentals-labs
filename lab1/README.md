@@ -27,6 +27,8 @@ The implementation lab1_proteins_mp_alt4.py uses multiprocessing in the calculus
 The best multiprocessing implementation we have found is lab1-proteins-mp.py.
 Relevant time statistics for lab1-proteins-mp.py vs lab1-proteins-serial.py
 Guille's PC:
+- Number of cores: 20
+- Base speed: 2.4 GHz
 - lab1-proteins-serial.py    - Time spent in preprocessing: 2.7133  (2.96%)
     - Time spent calculating the inertia for every k: 87.3853 s (95.18%)
     - Time spent finding the optimal k: 0.0002 s (0.00%)
@@ -43,7 +45,7 @@ Guille's PC:
     - Total program runtime (excluding ploting): 29.8294 seconds
 
 - Empirical Speedup: 91.8110 / 29.8294 = 3,078 %
-- Number of cores: 20
+
 - Parallelizable part (Inertia calculation): 95 %
 - Maximum theoretical speedup (Amdahl's law): 10.26
 Notice that the number of parallel processes cannot be greater than the number of ks to be analyzed (16). Therefore, having more than 16 cores will not improve the empirical speedup, even though Amdahl's law will return a bigger theoretical speedup. 
