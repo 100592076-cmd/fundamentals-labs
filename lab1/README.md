@@ -87,6 +87,6 @@ Alfredo's PC:
 - Empirical Speedup: 112.5305 / 29.4372 = 1.896 %
 
 - Parallelizable part (Inertia calculation): 95 %
-- Maximum theoretical speedup (Amdahl's law): 6.897 %
+- Maximum theoretical speedup (Amdahl's law): 6.897 %  
  
  
