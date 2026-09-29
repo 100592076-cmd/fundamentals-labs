@@ -17,7 +17,7 @@ def preprocess_dataset(df):
 # for the dataset X and for each k (number of clusters) in k_range. 
 # The seed is for the random selection of the initial clusters,
 # it has nothing to do with the seed for the data set generation.
-def compute_wcss(X, k_range, seed=123):
+def compute_wcss(X, k_range):
     # Function that computes inertia for a range of k values using the custom KMeans implementation.
     wcss_list = []
     for k in k_range:
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     print("\nCalculating optimal k using the Elbow Method (sequential)...")
     t_start_inertia = time.time()
     k_range = list(range(1, 16))
-    wcss_list = compute_wcss(X, k_range, seed=123)
+    wcss_list = compute_wcss(X, k_range)
     t_inertia = time.time() - t_start_inertia
     t_start_optimal = time.time()
     optimal_k, _ = find_optimal_k_elbow(k_range, wcss_list)
@@ -162,7 +162,7 @@ if __name__ == "__main__":
     # Run K-Means with optimal k
     print(f"\nClustering data into {optimal_k} clusters (manual K-Means)...")
     t_start_final_fit = time.time()
-    final_km = KMeansCustom(k=optimal_k, seed=123)
+    final_km = KMeansCustom(k=optimal_k)
     final_km.fit(X)
     df["cluster"] = final_km.labels_
     t_final_fit = time.time() - t_start_final_fit
