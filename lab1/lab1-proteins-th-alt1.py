@@ -12,7 +12,9 @@ import os
 
 # Number of desired threads. Making it bigger than the number of ks doesnt
 # improve performance.
-NTHREADS = os.cpu_count()
+NTHREADS = 12
+# os.cpu_count()
+
 
 # This function transforms the feature "sequence" into "sequence length".
 def preprocess_dataset(df):
