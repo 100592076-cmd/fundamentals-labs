@@ -27,20 +27,23 @@ The implementation lab1_proteins_mp_alt4.py uses multiprocessing in the calculus
 The best multiprocessing implementation we have found is lab1-proteins-mp.py.
 Relevant time statistics for lab1-proteins-mp.py vs lab1-proteins-serial.py
 Guille's PC:
-- lab1-proteins-serial.py
-    - Time spent in preprocessing: 2.5588  (2.87%)
-    - Time spent calculating the inertia for every k: 84.8638 s (95.05%)
-    - Time spent finding the optimal k: 0.0003 s (0.00%)
-    - Time spent calculating the final fit: 1.4765 s (1.65%)
-    - Total program runtime (excluding ploting): 89.2814 seconds
+- lab1-proteins-serial.py    - Time spent in preprocessing: 2.7133  (2.96%)
+    - Time spent calculating the inertia for every k: 87.3853 s (95.18%)
+    - Time spent finding the optimal k: 0.0002 s (0.00%)
+    - Time spent calculating the final fit: 1.3023 s (1.42%)
+    - Time spent analyzing the cluster with highest sequence length: 0.4092 s (0.45%)
+    - Total program runtime (excluding ploting): 91.8110 seconds.
 
 - lab1-proteins-mp.py
-    - Time spent in preprocessing: 3.4436  (11.02%)
-    - Time spent calculating the inertia for every k: 25.8514 s (82.72%)
-    - Time spent finding the optimal k: 0.0028 s (0.01%)
-    - Time spent calculating the final fit: 1.4898 s (4.77%)
-    - Total program runtime (excluding ploting): 31.2527 seconds
-- Empirical Speedup: 89.2814/31.2527=2.857%
+    - Time spent in preprocessing: 3.5208  (11.80%)
+    - Time spent calculating the inertia for every k: 24.3996 s (81.80%)
+    - Time spent finding the optimal k: 0.0002 s (0.00%)
+    - Time spent calculating the final fit: 1.4597 s (4.89%)
+    - Time spent analyzing the cluster with highest sequence length: 0.4480 s (1.50%)
+    - Total program runtime (excluding ploting): 29.8294 seconds
+
+- Empirical Speedup: 91.8110 / 29.8294 = 3,078 %
 - Number of cores: 20
 - Parallelizable part (Inertia calculation): 95 %
 - Maximum theoretical speedup (Amdahl's law): 10.26
+Notice that the number of parallel processes cannot be greater than the number of ks to be analyzed (16). Therefore, having more than 16 cores will not improve the empirical speedup, even though Amdahl's law will return a bigger theoretical speedup. 
