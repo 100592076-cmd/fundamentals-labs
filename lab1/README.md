@@ -113,10 +113,10 @@ The statistics were obtained on a dataset of 2000000 samples generated with seed
     - Total program runtime (excluding ploting): 39.2382 seconds.
     - Empirical Speedup: 111.4801 / 39.2382 = 2,84111146790627
 
-- Parallelizable part (Inertia calculation): 95 %
-- Maximum theoretical speedup (Amdahl's law): 10.26
+- Parallelizable part (Inertia calculation): 93.6 %
+- Maximum theoretical speedup (Amdahl's law): 9.03
 Notice that the number of parallel processes cannot be greater than the number of ks to be analyzed (16). Therefore, having more than 16 cores will not improve the empirical speedup, even though Amdahl's law will return a bigger theoretical speedup. We could calculate the maximum speedup taking into account that no more than 16 cores will be used using Amdahl's law
-- Maximum theoretical speedup (Amdahl's law, 16 cores): 9.14
+- Maximum theoretical speedup (Amdahl's law, 16 cores): 8.16
 
 
 
