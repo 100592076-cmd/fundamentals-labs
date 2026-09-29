@@ -26,6 +26,7 @@ The implementation lab1_proteins_mp_alt4.py uses multiprocessing in the calculus
 
 The best multiprocessing implementation we have found is lab1-proteins-mp.py.
 Relevant time statistics for lab1-proteins-mp.py vs lab1-proteins-serial.py
+
 Guille's PC:
 - Number of cores: 20
 - Base speed: 2.4 GHz

@@ -17,9 +17,9 @@ def preprocess_dataset(df):
     return df, X
 
 # This function parallelizes the work of the function compute_wcss.
-def compute_wcss_for_k(X, k, seed=123):
+def compute_wcss_for_k(X, k):
     # Computes inertia for a specific k using the custom KMeans implementation.
-    km = KMeansCustom(k=k, seed=seed)
+    km = KMeansCustom(k=k)
     km.fit(X)
     return km.inertia_
 
@@ -27,11 +27,11 @@ def compute_wcss_for_k(X, k, seed=123):
 # for the dataset X and for each k (number of clusters) in k_range. 
 # The seed is for the random selection of the initial clusters,
 # it has nothing to do with the seed for the data set generation.
-def compute_wcss(X, k_range, seed=123):
+def compute_wcss(X, k_range):
     # Function that computes inertia for a range of k values using the custom KMeans implementation.
     wcss_list = []
     with mp.Pool(min(mp.cpu_count(),len(k_range))) as pool:
-        results = pool.starmap(compute_wcss_for_k, [(X, k, seed) for k in k_range])
+        results = pool.starmap(compute_wcss_for_k, [(X, k) for k in k_range])
     wcss_list.extend(results)
     return wcss_list
 
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     print("\nCalculating optimal k using the Elbow Method (multiprocessing)...")
     t_start_inertia = time.time()
     k_range = list(range(1, 16))
-    wcss_list = compute_wcss(X, k_range, seed=123)
+    wcss_list = compute_wcss(X, k_range)
     t_inertia = time.time() - t_start_inertia
     t_start_optimal = time.time()
     optimal_k, _ = find_optimal_k_elbow(k_range, wcss_list)
