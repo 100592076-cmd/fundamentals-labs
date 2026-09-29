@@ -21,7 +21,7 @@ def compute_wcss(X, k_range):
     # Function that computes inertia for a range of k values using the custom KMeans implementation.
     wcss_list = []
     for k in k_range:
-        km = KMeansCustom(k=k, seed=seed)
+        km = KMeansCustom(k=k)
         km.fit(X)
         wcss_list.append(km.inertia_)
     return wcss_list
