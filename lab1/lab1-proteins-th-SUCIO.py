@@ -5,16 +5,13 @@ import pandas as pd
 import seaborn as sns
 from kmeans_scratch import KMeansCustom  # Import custom K-Means class
 import threading
-import os
 
 # IMPLEMENTATION USING MULTITHREADING   
 # The threads only affect the compute_wcss function, the rest remains serial.
 
 # Number of desired threads. Making it bigger than the number of ks doesnt
 # improve performance.
-NTHREADS = 12
-# os.cpu_count()
-
+NTHREADS = 20
 
 # This function transforms the feature "sequence" into "sequence length".
 def preprocess_dataset(df):
@@ -23,28 +20,33 @@ def preprocess_dataset(df):
     X = df[["enzyme", "hydrofob"]].to_numpy()
     return df, X
 
-
 # This function parallelizes the work of the function compute_wcss.
+def compute_wcss_for_ks(X, k_range, block_start, block_size, wcss_list):
+    # Computes inertia for a specific block of ks using the custom KMeans implementation.
+    ks = k_range[block_start:block_start+block_size]
+    for i in range(block_size):
+        k = ks[i]
+        km = KMeansCustom(k)
+        km.fit(X)
+        wcss_list[block_start+i] = km.inertia_
+
+# This function computes the Inertia or Within-Cluster Sum of Squares (wcss)
+# for the dataset X and for each k (number of clusters) in k_range. 
+# The seed is for the random selection of the initial clusters,
+# it has nothing to do with the seed for the data set generation.
 def compute_wcss(X, k_range):
     # Function that computes inertia for a range of k values using the custom KMeans implementation.
     wcss_list = [0.0] * len(k_range)
     threads = []
     n_threads = min(NTHREADS, len(k_range))
-
-    # Divide index k_range in equitative blocks avoiding losing someone
-    index_chunks = np.array_split(range(len(k_range)), n_threads)
-
-    def worker(ind):
-        for idx in ind:
-            k = k_range[idx]
-            km = KMeansCustom(k)
-            km.fit(X)
-            wcss_list[idx] = km.inertia_
-
-    for i, chunk in enumerate(index_chunks):
-        if len(chunk) == 0:
-            continue
-        th = threading.Thread(name=f"th{i}", target=worker, args=(chunk,))
+    block_size = len(k_range) // n_threads
+    block_start = 0
+    for thread in range(n_threads):
+        i = block_start
+        th = threading.Thread(name="th%s" %thread, 
+                              target=compute_wcss_for_ks, 
+                              args=(X, k_range, i, block_size, wcss_list))
+        block_start += block_size
         th.start()
         threads.append(th)
 

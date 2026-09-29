@@ -27,7 +27,8 @@ The implementation lab1_proteins_mp_alt4.py uses multiprocessing in the calculus
 The best multiprocessing implementation we have found is lab1-proteins-mp.py.
 Relevant time statistics for lab1-proteins-mp.py vs lab1-proteins-serial.py
 
-Guille's PC:
+
+**Guille's PC:**
 - Number of cores: 20
 - Base speed: 2.4 GHz
 - lab1-proteins-serial.py    - Time spent in preprocessing: 2.7133  (2.96%)
@@ -53,9 +54,12 @@ Notice that the number of parallel processes cannot be greater than the number o
 
 
 
-Alfredo's PC:
-- Number of cores: 10
+**Alfredo's PC:**
+- Number of physical cores: 10
+- Number of logical cores: 16
 - Base speed: 1.9 GHz
+- RAM: 32GB
+- OS: Windows
 - lab1-proteins-serial.py    - Time spent in preprocessing: 3.8835  (3.45%)
     - Time spent calculating the inertia for every k: 105.2427 s (93.52%)
     - Time spent finding the optimal k: 0.0079 s (0.01%)
