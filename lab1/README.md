@@ -77,14 +77,14 @@ Alfredo's PC:
 - Maximum theoretical speedup (Amdahl's law): 6.897 %
 
 - lab1-proteins-th.py
-    - Time spent in preprocessing: 3.7113  (6.25%)
-    - Time spent calculating the inertia for every k: 52.2576 (88.04%)
+    - Time spent in preprocessing: 3.7482  (8.80%)
+    - Time spent calculating the inertia for every k: 34.9975 s (82.20%)
     - Time spent finding the optimal k: 0.0003 s (0.00%)
-    - Time spent calculating the final fit: 2.8062 s (4.73%)
-    - Time spent analyzing the cluster with highest sequence length: 0.5830 s (0.98%)
-    - Total program runtime (excluding ploting): 59.3595 seconds
+    - Time spent calculating the final fit: 3.2360 s (7.60%)
+    - Time spent analyzing the cluster with highest sequence length: 0.5935 s (1.39%)
+    - Total program runtime (excluding ploting): 42.5762 seconds
 
-- Empirical Speedup: 112.5305 / 29.4372 = 1.896 %
+- Empirical Speedup: 112.5305 / 42.5762 = 2.643 %
 
 - Parallelizable part (Inertia calculation): 95 %
 - Maximum theoretical speedup (Amdahl's law): 6.897 %  
