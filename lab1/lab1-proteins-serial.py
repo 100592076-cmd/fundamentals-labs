@@ -180,7 +180,6 @@ if __name__ == "__main__":
 
     total_execution_time = time.time() - start
 
-    print(f"\nTotal program runtime: {total_execution_time:.4f} seconds.")
     print("Generating plots...")
 
     # Build figures
