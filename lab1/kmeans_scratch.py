@@ -43,20 +43,33 @@ class KMeansCustom:
         
         prev_inertia = float("inf") # Initialize inertia to a very large value to ensure the first iteration does not fail.
 
+        # To calculte the distances (x-centroid)^2 efficiently inside the loop, we will do 
+        # x^2 + centroid^2 - 2*x*centroid
+        # This allows us to calculate x^2 only once and reduce the number of computations.
+        x_squared = np.sum(X ** 2, axis = 1)
+
         # OPTIMIZATION LOOP 
         for _ in range(self.max_iter):
-            # Distance Calculation using numpy. Reshape X to (N, 1, D) and centroids to (1, K, D),
-            # in order to get a (N, K, D) array of differences between each point and each centroid.
-            diffs = X[:, np.newaxis, :] - self.centroids_[np.newaxis, :, :]
-            
-            # Squared Euclidean distance 
-            sq_distances = np.sum(diffs**2, axis=2)
+            # # Distance Calculation using numpy. Reshape X to (N, 1, D) and centroids to (1, K, D),
+            # # in order to get a (N, K, D) array of differences between each point and each centroid.
+            # diffs = X[:, np.newaxis, :] - self.centroids_[np.newaxis, :, :]
+            # # Squared Euclidean distance 
+            # sq_distances = np.sum(diffs**2, axis=2)
+            # # Assign each point to nearest centroid index
+            # labels = np.argmin(sq_distances, axis=1)
+            # # Calculate inertia 
+            # inertia = np.sum(np.min(sq_distances, axis=1))
 
-            # Assign each point to nearest centroid index
+            # Distance calculation
+            centroid_squared = np.sum(self.centroids_ ** 2, axis=1)
+            sq_distances = (x_squared[:, None] + centroid_squared[None, :] - 2 * (X @ self.centroids_.T))
+            sq_distances = np.maximum(sq_distances, 0)
+
+            # Centroid asignation
             labels = np.argmin(sq_distances, axis=1)
 
-            # Calculate inertia 
-            inertia = np.sum(np.min(sq_distances, axis=1))
+            # Inertia caculation
+            inertia = np.sum(np.min(sq_distances, axis=1))              
 
             # Centroid Update (we calculate the new mean of cluster points)
             new_centroids = np.zeros_like(self.centroids_)
