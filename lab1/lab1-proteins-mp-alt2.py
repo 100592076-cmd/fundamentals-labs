@@ -166,12 +166,14 @@ if __name__ == "__main__":
     print("Clustering complete.")
 
     # Sequence analysis
+    t_start_sequence = time.time()
     print("\n--- Analysis of Cluster with Highest Total Sequence Length ---")
     target_cluster_id, max_protid, max_seq_len, avg_seq_len = get_cluster_highest_seq_length(df)
     print(f"Cluster ID with longest sequence : {target_cluster_id}")
     print(f"  - Protein ID                  : {max_protid}")
     print(f"  - Maximum sequence length     : {max_seq_len}")
     print(f"  - Average sequence length     : {avg_seq_len:.2f}")
+    t_sequence = time.time() - t_start_sequence 
 
     total_execution_time = time.time() - start
 
@@ -190,6 +192,7 @@ if __name__ == "__main__":
     print(f"\n Time spent calculating the inertia for every k: {t_inertia:.4f} s ({(t_inertia / total_execution_time) * 100:.2f}%)")
     print(f"\n Time spent finding the optimal k: {t_optimal:.4f} s ({(t_optimal / total_execution_time) * 100:.2f}%)")
     print(f"\n Time spent calculating the final fit: {t_final_fit:.4f} s ({(t_final_fit / total_execution_time) * 100:.2f}%)")
+    print(f"\n Time spent analyzing the cluster with highest sequence length: {t_sequence:.4f} s ({(t_sequence / total_execution_time) * 100:.2f}%)")
     print(f"\n Total program runtime (excluding ploting): {total_execution_time:.4f} seconds.")
     
     print("\nDisplaying plots. Close plot windows to exit.")
