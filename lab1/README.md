@@ -50,3 +50,43 @@ Guille's PC:
 - Parallelizable part (Inertia calculation): 95 %
 - Maximum theoretical speedup (Amdahl's law): 10.26
 Notice that the number of parallel processes cannot be greater than the number of ks to be analyzed (16). Therefore, having more than 16 cores will not improve the empirical speedup, even though Amdahl's law will return a bigger theoretical speedup. 
+
+
+
+Alfredo's PC:
+- Number of cores: 10
+- Base speed: 1.9 GHz
+- lab1-proteins-serial.py    - Time spent in preprocessing: 3.8835  (3.45%)
+    - Time spent calculating the inertia for every k: 105.2427 s (93.52%)
+    - Time spent finding the optimal k: 0.0079 s (0.01%)
+    - Time spent calculating the final fit: 2.7955 s (2.48%)
+    - Time spent analyzing the cluster with highest sequence length: 0.5999 s (0.53%)
+    - Total program runtime (excluding ploting): 112.5305 seconds
+
+- lab1-proteins-mp.py
+    - Time spent in preprocessing: 3.7366  (12.69%)
+    - Time spent calculating the inertia for every k: 23.8731 s (81.10%)
+    - Time spent finding the optimal k: 0.0003 s (0.00%)
+    - Time spent calculating the final fit: 1.2687 s (4.31%)
+    - Time spent analyzing the cluster with highest sequence length: 0.5572 s (1.89%)
+    - Total program runtime (excluding ploting): 29.4372 seconds
+
+- Empirical Speedup: 112.5305 / 29.4372 = 3,823 %
+
+- Parallelizable part (Inertia calculation): 95 %
+- Maximum theoretical speedup (Amdahl's law): 6.897 %
+
+- lab1-proteins-th.py
+    - Time spent in preprocessing: 3.7113  (6.25%)
+    - Time spent calculating the inertia for every k: 52.2576 (88.04%)
+    - Time spent finding the optimal k: 0.0003 s (0.00%)
+    - Time spent calculating the final fit: 2.8062 s (4.73%)
+    - Time spent analyzing the cluster with highest sequence length: 0.5830 s (0.98%)
+    - Total program runtime (excluding ploting): 59.3595 seconds
+
+- Empirical Speedup: 112.5305 / 29.4372 = 1.896 %
+
+- Parallelizable part (Inertia calculation): 95 %
+- Maximum theoretical speedup (Amdahl's law): 6.897 %
+ 
+ 
