@@ -1,11 +1,30 @@
 # Lab 1 — K-Means Parallelization in Python
 
 K-Means clustering (on `enzyme` and `hydrofob`) over a synthetic proteins dataset, in serial, `multiprocessing` and `threading` versions, comparing execution times and speedup.
+ 
+## Before using
+In order to correctly show the speedup obtain with the parallelization we have implemented, we will tell NumPy's BLAS library to avoid using multithreading itself. To do this we first need to install the library threadpoolctl.
+
+```bash
+python -m pip install threadpoolctl
+```
+We can now check how many threads are being used by BLAS by running:
+
+```bash
+python -c "import numpy as np; from threadpoolctl import threadpool_info; np.ones((2, 2)) @ np.ones((2, 2)); print(threadpool_info())"
+```
+We can force BLAS to use only one thread with the command:
+
+```bash
+$env:OPENBLAS_NUM_THREADS = '1'; $env:MKL_NUM_THREADS = '1'; $env:OMP_NUM_THREADS = '1';
+```
+Running the same command with different numbers allows us to return to the original configuration. 
 
 ## Usage
 
 ```bash
-python proteins-generator.py 50000 <seed>   # generates proteins.csv
+python proteins-generator.py 50000 <seed>   # generates proteins.csv for development
+python proteins-generator.py 2000000 <seed> # generates proteins.csv for final version
 python lab1-proteins-serial.py
 python lab1-proteins-mp.py
 python lab1-Proteins-th.py
@@ -25,8 +44,10 @@ The implementation lab1_proteins_mp_alt3.py uses multiprocessing in the calculus
 The implementation lab1_proteins_mp_alt4.py uses multiprocessing in the calculus of the inertia (as in lab1-proteins-mp.py) as well as in the preprocessing of the data (but not in the reading of the csv). This method does not provide any gains because sending the data to each process is slower than just processing the data serially.
 
 The best multiprocessing implementation we have found is lab1-proteins-mp.py.
-Relevant time statistics for lab1-proteins-mp.py vs lab1-proteins-serial.py
 
+
+## Time statistics:
+The statistics were obtained on a dataset of 2000000 samples generated with seed = 123. (Make sure to have read the Before using section before running the code).
 
 **Guille's PC:**
 - Number of cores: 20
