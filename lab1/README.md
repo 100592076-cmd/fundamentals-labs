@@ -8,16 +8,14 @@ In order to correctly show the speedup obtain with the parallelization we have i
 ```bash
 python -m pip install threadpoolctl
 ```
-We can now check how many threads are being used by BLAS by running:
 
-```bash
-python -c "import numpy as np; from threadpoolctl import threadpool_info; np.ones((2, 2)) @ np.ones((2, 2)); print(threadpool_info())"
-```
-We can force BLAS to use only one thread with the command:
+We can force BLAS to use only one thread with the command:(we put it in .py script)
 
-```bash
-$env:OPENBLAS_NUM_THREADS = '1'; $env:MKL_NUM_THREADS = '1'; $env:OMP_NUM_THREADS = '1';
-```
+
+from threadpoolctl import threadpool_limits
+threadpool_limits(limits=1, user_api="blas")
+
+
 Running the same command with different numbers allows us to return to the original configuration. 
 
 ## Usage
