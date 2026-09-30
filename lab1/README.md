@@ -9,7 +9,7 @@ In order to correctly show the speedup obtain with the parallelization we have i
 python -m pip install threadpoolctl
 ```
 
-We can force BLAS to use only one thread with the command:(we put it in .py script)
+We can force BLAS to use only one thread with the command (we put it in .py script):
 
 
 from threadpoolctl import threadpool_limits
