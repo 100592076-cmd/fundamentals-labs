@@ -141,22 +141,47 @@ Notice that the number of parallel processes cannot be greater than the number o
     - Time spent analyzing the cluster with highest sequence length: 0.5572 s (1.89%)
     - Total program runtime (excluding ploting): 29.4372 seconds
 
+- lab1-proteins-th4.py
+    - Time spent in preprocessing: 3.8448  (6.68%)
+    - Time spent calculating the inertia for every k: 50.0080 s (86.86%)
+    - Time spent finding the optimal k: 0.0059 s (0.01%)
+    - Time spent calculating the final fit: 3.1622 s (5.49%)
+    - Time spent analyzing the cluster with highest sequence length: 0.5520 s (0.96%)
+    - Total program runtime (excluding ploting): 57.5736 seconds
+    - Empirical Speedup: 111.4801 / 57.5736 = 1.93630587630442
+
+- lab1-proteins-th8.py
+    - Time spent in preprocessing: 3.7535  (7.64%)
+    - Time spent calculating the inertia for every k: 41.5564 s (84.54%)
+    - Time spent finding the optimal k: 0.0004 s (0.00%)
+    - Time spent calculating the final fit: 3.2546 s (6.62%)
+    - Time spent analyzing the cluster with highest sequence length:  0.5925 s (1.21%)
+    - Total program runtime (excluding ploting): 49.1583 seconds
+    - Empirical Speedup: 111.4801 / 49.1583 = 2.26777777099696
+
+- lab1-proteins-th12.py
+    - Time spent in preprocessing: 2.8953  (7.43%)
+    - Time spent calculating the inertia for every k: 32.8127 s (84.24%)
+    - Time spent finding the optimal k: 0.0002 s (0.00%)
+    - Time spent calculating the final fit: 2.8470 s (7.31%)
+    - Time spent analyzing the cluster with highest sequence length: 0.3969 s (1.02%)
+    - Total program runtime (excluding ploting): 38.9528 seconds.
+    - Empirical Speedup: 111.4801 / 38.9528 = 2,86192776899222
+
+- lab1-proteins-th16.py
+    - Time spent in preprocessing: 3.0976  (7.89%)
+    - Time spent calculating the inertia for every k: 31.7763 s (80.98%)
+    - Time spent finding the optimal k: 0.0002 s (0.00%)
+    - Time spent calculating the final fit: 3.9326 s (10.02%)
+    - Time spent analyzing the cluster with highest sequence length: 0.4310 s (1.10%)
+    - Total program runtime (excluding ploting): 39.2382 seconds.
+    - Empirical Speedup: 111.4801 / 39.2382 = 2,84111146790627
+
 - Empirical Speedup: 112.5305 / 29.4372 = 3,823 
 
 - Parallelizable part (Inertia calculation): 95 %
 - Maximum theoretical speedup (Amdahl's law): 6.897 
 
-- lab1-proteins-th.py
-    - Time spent in preprocessing: 3.7482  (8.80%)
-    - Time spent calculating the inertia for every k: 34.9975 s (82.20%)
-    - Time spent finding the optimal k: 0.0003 s (0.00%)
-    - Time spent calculating the final fit: 3.2360 s (7.60%)
-    - Time spent analyzing the cluster with highest sequence length: 0.5935 s (1.39%)
-    - Total program runtime (excluding ploting): 42.5762 seconds
 
-- Empirical Speedup: 112.5305 / 42.5762 = 2.643 
-
-- Parallelizable part (Inertia calculation): 95 %
-- Maximum theoretical speedup (Amdahl's law): 6.897  
  
  
