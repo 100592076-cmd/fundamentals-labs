@@ -1,22 +1,7 @@
 # Lab 1 — K-Means Parallelization in Python
 
 K-Means clustering (on `enzyme` and `hydrofob`) over a synthetic proteins dataset, in serial, `multiprocessing` and `threading` versions, comparing execution times and speedup.
- 
-## Before using
-In order to correctly show the speedup obtain with the parallelization we have implemented, we will tell NumPy's BLAS library to avoid using multithreading itself. To do this we first need to install the library threadpoolctl.
 
-```bash
-python -m pip install threadpoolctl
-```
-
-We can force BLAS to use only one thread with the command (we put it in .py script):
-
-
-from threadpoolctl import threadpool_limits
-threadpool_limits(limits=1, user_api="blas")
-
-
-Running the same command with different numbers allows us to return to the original configuration. 
 
 ## Usage
 
