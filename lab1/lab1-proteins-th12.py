@@ -6,9 +6,21 @@ import seaborn as sns
 from kmeans_scratch import KMeansCustom  # Import custom K-Means class
 import threading
 import os
+from threadpoolctl import threadpool_info
 
 # IMPLEMENTATION USING MULTITHREADING   
 # The threads only affect the compute_wcss function, the rest remains serial.
+
+# In order to correctly show the speedup obtain with the parallelization we have implemented, we will tell NumPy's BLAS 
+# library to avoid using multithreading itself. 
+# To do this we first need to install the library threadpoolctl.
+
+# # Limit BLAS/MKL internal threads to 1 using threadpoolctl.
+# This prevents NumPy from auto-parallelizing matrix operations,
+# ensuring accurate speedup measurements for our custom multithreaded code
+
+from threadpoolctl import threadpool_limits
+threadpool_limits(limits=1, user_api="blas")
 
 # Number of desired threads. Making it bigger than the number of ks doesnt
 # improve performance.
