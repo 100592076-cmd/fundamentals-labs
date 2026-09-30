@@ -117,13 +117,13 @@ Notice that the number of parallel processes cannot be greater than the number o
     - Total program runtime (excluding ploting): 112.5305 seconds
 
 - lab1-proteins-mp.py
-    - Time spent in preprocessing: 3.7366  (12.69%)
-    - Time spent calculating the inertia for every k: 23.8731 s (81.10%)
-    - Time spent finding the optimal k: 0.0003 s (0.00%)
-    - Time spent calculating the final fit: 1.2687 s (4.31%)
-    - Time spent analyzing the cluster with highest sequence length: 0.5572 s (1.89%)
-    - Total program runtime (excluding ploting): 29.4372 seconds
-    - Empirical Speedup: 112.5305 / 29.4372 = 3.82273110214287
+    - Time spent in preprocessing: 3.7825  (13.79%)
+    - Time spent calculating the inertia for every k: 21.4231 s (78.08%)
+    - Time spent finding the optimal k:  0.0003 s (0.00%)
+    - Time spent calculating the final fit: 1.5791 s (5.76%)
+    - Time spent analyzing the cluster with highest sequence length:  0.6522 s (2.38%)
+    - Total program runtime (excluding ploting): 27.4380 seconds seconds
+    - Empirical Speedup: 112.5305 / 27.4380 = 4.10126466943655
 
 - lab1-proteins-th4.py
     - Time spent in preprocessing: 3.8448  (6.68%)
