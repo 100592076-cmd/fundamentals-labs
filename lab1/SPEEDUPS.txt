@@ -1,0 +1,59 @@
+
+
+**1st PC:**
+- Number of physical cores: 20
+- Number of logical cores: 20
+- Base speed: 2.4 GHz
+- RAM: 32 GB
+- OS: Windows 11
+
+- lab1-proteins-mp.py
+    - Empirical Speedup: 111.4801 / 24.9751 = 4,46364979519602
+
+- lab1-proteins-th4.py
+    - Empirical Speedup: 111.4801 / 46.6232 = 2,3910864119151
+
+- lab1-proteins-th8.py
+    - Empirical Speedup: 111.4801 / 34.5423 = 3,22735023435035
+
+- lab1-proteins-th12.py
+    - Empirical Speedup: 111.4801 / 38.9528 = 2,86192776899222
+
+- lab1-proteins-th16.py
+    - Empirical Speedup: 111.4801 / 39.2382 = 2,84111146790627
+
+- Parallelizable part (Inertia calculation): 93.6 %
+- Maximum theoretical speedup (Amdahl's law): 9.03
+Notice that the number of parallel processes cannot be greater than the number of ks to be analyzed (16). Therefore, having more than 16 cores will not improve the empirical speedup, even though Amdahl's law will return a bigger theoretical speedup. We could calculate the maximum speedup taking into account that no more than 16 cores will be used using Amdahl's law
+- Maximum theoretical speedup (Amdahl's law, 16 cores): 8.16
+
+
+
+**2nd PC:**
+- Number of physical cores: 10
+- Number of logical cores: 16
+- Base speed: 1.9 GHz
+- RAM: 32GB
+- OS: Windows
+
+- lab1-proteins-mp.py
+    - Empirical Speedup: 112.5305 / 27.4380 = 4.10126466943655
+
+- lab1-proteins-th4.py
+    - Empirical Speedup: 112.5305 / 57.5736 = 1.95455034946573
+
+- lab1-proteins-th8.py
+    - Empirical Speedup: 112.5305 / 49.1583 = 2.28914547492489
+
+- lab1-proteins-th12.py
+    - Empirical Speedup: 112.5305 / 41.6515 = 2.70171542441449
+
+- lab1-proteins-th16.py
+    - Empirical Speedup: 112.5305 / 39.5522 = 2.84511354614914
+
+- Parallelizable part (Inertia calculation): 93.52 %
+- Maximum theoretical speedup (Amdahl's law): 6.897 
+
+
+ 
+ 
