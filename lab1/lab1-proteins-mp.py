@@ -26,8 +26,18 @@ threadpool_limits(limits=1, user_api="blas")
 def preprocess_dataset(df):
     # In order to work with the feature sequence, we work with length sequence.
     df["seq_length"] = df["sequence"].str.len()
-    X = df[["enzyme", "hydrofob"]].to_numpy()
-    return df, X
+    X_raw = df[["enzyme", "hydrofob"]].to_numpy()
+   
+    
+    # Min - Max [0,1] normalization
+    X_min = X_raw.min(axis=0)
+    X_max = X_raw.max(axis=0)
+    X_norm = (X_raw - X_min) / (X_max - X_min)
+    
+    # Add normalized columns to the dataframe to draw the graphs
+    df["enzyme_norm"] = X_norm[:, 0]
+    df["hydrofob_norm"] = X_norm[:, 1]
+    return df, X_norm
 
 # This function parallelizes the work of the function compute_wcss.
 def compute_wcss_for_k(X, k):
@@ -139,18 +149,37 @@ def plot_elbow(ax, k_range, wcss_list, optimal_k):
 
 # This function draws the cluster plot (the second plot)
 def plot_clusters(ax, df, final_km, optimal_k):
-    # Generates cluster scatter plot with centroids marked.
-    sns.scatterplot(data=df, x="enzyme", y="hydrofob", hue="cluster", palette="viridis", alpha=0.6, ax=ax, s=20)
-    ax.scatter(final_km.centroids_[:, 0], final_km.centroids_[:, 1], c="red", marker="X", s=200, label="Centroids")
-    ax.set_title(f"Clustering K-Means (k={optimal_k})")
-    ax.set_xlabel("Enzyme")
-    ax.set_ylabel("Hydrofob")
+    # Gráfica de dispersión usando las variables normalizadas
+    sns.scatterplot(
+        data=df, 
+        x="enzyme_norm", 
+        y="hydrofob_norm", 
+        hue="cluster", 
+        palette="viridis", 
+        alpha=0.6, 
+        ax=ax, 
+        s=20
+    )
+    # Centroides en escala normalizada [0, 1]
+    ax.scatter(
+        final_km.centroids_[:, 0], 
+        final_km.centroids_[:, 1], 
+        c="red", 
+        marker="X", 
+        s=200, 
+        label="Centroids"
+    )
+    ax.set_title(f"Clustering K-Means (k={optimal_k}) [Normalized]")
+    ax.set_xlabel("Enzyme (Normalized)")
+    ax.set_ylabel("Hydrofob (Normalized)")
     ax.legend(loc="upper right")
 
-# This function draws the heatmap plot (the third plot)
 def plot_centroids_heatmap(ax, final_km, optimal_k):
-    # Plots a heatmap of the centroids for each cluster.
-    centroid_df = pd.DataFrame(final_km.centroids_, columns=["Enzyme", "Hydrofob"], index=[f"Cluster {i}" for i in range(optimal_k)])
+    centroid_df = pd.DataFrame(
+        final_km.centroids_, 
+        columns=["Enzyme (Norm)", "Hydrofob (Norm)"], 
+        index=[f"Cluster {i}" for i in range(optimal_k)]
+    )
     sns.heatmap(centroid_df, annot=True, cmap="YlGnBu", fmt=".3f", ax=ax)
     ax.set_title("Heatmap of Centroids")
 
@@ -183,9 +212,9 @@ if __name__ == "__main__":
     # Run K-Means with optimal k (serial)
     print(f"\nClustering data into {optimal_k} clusters (manual K-Means)...")
     t_start_final_fit = time.time()
-    final_km = KMeansCustom(k=optimal_k, seed=123)
-    final_fit = final_km.fit(X)
-    df["cluster"] = final_fit.labels_
+    final_km = KMeansCustom(k=optimal_k)
+    final_km.fit(X)
+    df["cluster"] = final_km.labels_
     t_final_fit = time.time() - t_start_final_fit
     print("Clustering complete.")
 
@@ -206,8 +235,8 @@ if __name__ == "__main__":
     # Build figures
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
     plot_elbow(axes[0], k_range, wcss_list, optimal_k)
-    plot_clusters(axes[1], df, final_fit, optimal_k)
-    plot_centroids_heatmap(axes[2], final_fit, optimal_k)
+    plot_clusters(axes[1], df, final_km, optimal_k)
+    plot_centroids_heatmap(axes[2], final_km, optimal_k)
     plt.tight_layout()
 
     # Time statistics
