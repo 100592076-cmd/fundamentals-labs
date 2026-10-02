@@ -36,6 +36,7 @@ The best multiprocessing implementation we have found is lab1-proteins-mp.py.
 ## Time statistics:
 The statistics were obtained on a dataset of 2000000 samples generated with seed = 123. (Make sure to have read the Before using section before running the code).
 
+LOS TIEMPOS NO ESTÁN ACTUALIZADOS
 **Guille's PC:**
 - Number of physical cores: 20
 - Number of logical cores: 20
@@ -103,7 +104,7 @@ Notice that the number of parallel processes cannot be greater than the number o
 - Maximum theoretical speedup (Amdahl's law, 16 cores): 8.16
 
 
-
+LOS TIEMPOS NO ESTÁN ACTUALIZADOS
 **Alfredo's PC:**
 - Number of physical cores: 10
 - Number of logical cores: 16
