@@ -162,8 +162,13 @@ Notice that the number of parallel processes cannot be greater than the number o
     - Empirical Speedup: 145.4990 / 40.6667 = 3.57784132963825
 
 - Parallelizable part (Inertia calculation): 93.52 %
-- Maximum theoretical speedup (Amdahl's law): 6.897 
+- Maximum theoretical speedup, Amdahl's law (MP, N=15): 1/(1-0.9352+0.9352/15)=7.86493288590604
+- Maximum theoretical speedup, Amdahl's law (MTH, N=4): 1/(1-0.9352+0.9352/4)=3.34896182183523
+- Maximum theoretical speedup, Amdahl's law (MTH, N=8): 1/(1-0.9352+0.9352/8)=5.50357732526142
+- Maximum theoretical speedup, Amdahl's law (MTH, N=12): 1/(1-0.9352+0.9352/12)=7.00607192900514
+- Maximum theoretical speedup, Amdahl's law (MTH, N=15): 1/(1-0.9352+0.9352/15)=7.86493288590604
 
+- Maximum theoretical speedup, (N=10, physical cores): 1/(1-0.9352+0.9352/10)=6.31632137443153
 
  
  
