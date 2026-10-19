@@ -1,7 +1,5 @@
 import requests
-from datetime import datetime as dt
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 
 URL='https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ei_bsco_m?format=JSON&unit=BAL&indic=BS-CSMCI&s_adj=SA&lang=EN'
